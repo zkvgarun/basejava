@@ -18,9 +18,9 @@ public class ArrayStorage {
     }
 
     Resume get(String uuid) {
-        for (Resume r : Arrays.copyOfRange(storage, 0, count)){
-            if (r.uuid.equals(uuid)){
-                return r;
+        for (int i = 0;i < count; i++){
+            if (storage[i].uuid.equals(uuid)){
+                return storage[i];
             }
         }
         return new Resume();
