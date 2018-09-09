@@ -8,11 +8,11 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    private static int count;
+    private int count = 0;
     private Resume[] storage = new Resume[10000];
 
     public void clear() {
-        Arrays.fill(storage, null);
+        Arrays.fill(storage, 0, count, null);
         count = 0;
     }
 
@@ -30,64 +30,45 @@ public class ArrayStorage {
 
 
     public void update(Resume r){
-        boolean isPresent = Arrays.asList(storage).contains(r);
+        int index = searchResume(r.getUuid());
 
-        if(isPresent){
-            for(int i = 0; i < count; i++){
-                if(r.getUuid().equals(storage[i].getUuid())){
-                    storage[i] = r;
-                }
-            }
+        if(index >= 0){
+            storage[index] = r;
         } else {
             System.out.println("Resume не найден");
         }
     }
 
     public Resume get(String uuid) {
-        boolean isPresent = false;
+        int index = searchResume(uuid);
 
-        for(int i = 0; i < count; i++){
-            if (uuid.equals(storage[i].getUuid())){
-                isPresent = true;
-                break;
-            }
-        }
-
-        if(isPresent) {
-            for (int i = 0; i < count; i++) {
-                if (storage[i].getUuid().equals(uuid)) {
-                    return storage[i];
-                }
-            }
+        if(index >= 0){
+            return storage[index];
         } else {
             System.out.println("Resume не найден");
+            return null;
         }
-        return new Resume();
     }
 
     public void delete(String uuid) {
-        boolean isPresent = false;
+        int index = searchResume(uuid);
 
-        //Поиск резюме
-        for(int i = 0; i < count; i++){
-            if(uuid.equals(storage[i].getUuid())){
-                isPresent = true;
-                break;
-            }
-        }
-
-        // Проверка
-        if(isPresent) {
-            for (int i = 0; i < storage.length; i++) {
-                if (storage[i].getUuid().equals(uuid)) {
-                    --count;
-                    System.arraycopy(storage, count, storage, i, 1);
-                    return;
-                }
-            }
+        if(index >= 0) {
+            --count;
+            System.arraycopy(storage, count, storage, index, 1);
         } else {
             System.out.println("Resume не найден");
         }
+    }
+
+    // Ищет резюме и возвращает индекс
+    private int searchResume(String uuid){
+        for(int i = 0; i < count; i++){
+            if(uuid.equals(storage[i].getUuid())){
+                return i;
+            }
+        }
+        return -1;
     }
 
     /**
