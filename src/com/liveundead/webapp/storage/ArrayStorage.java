@@ -17,22 +17,22 @@ public class ArrayStorage {
     }
 
     public void save(Resume r) {
-        boolean exist = Arrays.asList(storage).contains(r);
-        if(exist){
-            System.out.println("Resume уже есть");
-        } else if (count == storage.length){
-            System.out.println("Нет места для хранения резюме");
-        } else {
+        int index = getIndex(r.getUuid());
+
+        if (index < 0) {
             storage[count] = r;
             count++;
+        } else if (count == storage.length) {
+            System.out.println("Нет места для хранения резюме");
+        } else {
+            System.out.println("Resume уже есть");
         }
     }
 
+    public void update(Resume r) {
+        int index = getIndex(r.getUuid());
 
-    public void update(Resume r){
-        int index = searchResume(r.getUuid());
-
-        if(index >= 0){
+        if (index >= 0) {
             storage[index] = r;
         } else {
             System.out.println("Resume не найден");
@@ -40,9 +40,9 @@ public class ArrayStorage {
     }
 
     public Resume get(String uuid) {
-        int index = searchResume(uuid);
+        int index = getIndex(uuid);
 
-        if(index >= 0){
+        if (index >= 0) {
             return storage[index];
         } else {
             System.out.println("Resume не найден");
@@ -51,20 +51,20 @@ public class ArrayStorage {
     }
 
     public void delete(String uuid) {
-        int index = searchResume(uuid);
+        int index = getIndex(uuid);
 
-        if(index >= 0) {
-            --count;
-            System.arraycopy(storage, count, storage, index, 1);
+        if (index >= 0) {
+            count--;
+            storage[index] = storage[count];
+            storage[count] = null;
         } else {
             System.out.println("Resume не найден");
         }
     }
 
-    // Ищет резюме и возвращает индекс
-    private int searchResume(String uuid){
-        for(int i = 0; i < count; i++){
-            if(uuid.equals(storage[i].getUuid())){
+    private int getIndex(String uuid) {
+        for (int i = 0; i < count; i++) {
+            if (uuid.equals(storage[i].getUuid())) {
                 return i;
             }
         }
