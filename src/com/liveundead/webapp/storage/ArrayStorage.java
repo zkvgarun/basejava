@@ -4,9 +4,6 @@ import com.liveundead.webapp.model.Resume;
 
 import java.util.Arrays;
 
-/**
- * Array based storage for Resumes
- */
 public class ArrayStorage {
     private int count = 0;
     private Resume[] storage = new Resume[10000];
@@ -19,11 +16,11 @@ public class ArrayStorage {
     public void save(Resume r) {
         int index = getIndex(r.getUuid());
 
-        if (index < 0) {
+        if (count == storage.length) {
+            System.out.println("Нет места для хранения резюме");
+        } else if (index < 0) {
             storage[count] = r;
             count++;
-        } else if (count == storage.length) {
-            System.out.println("Нет места для хранения резюме");
         } else {
             System.out.println("Resume уже есть");
         }
@@ -71,9 +68,6 @@ public class ArrayStorage {
         return -1;
     }
 
-    /**
-     * @return array, contains only Resumes in storage (without null)
-     */
     public Resume[] getAll() {
         return Arrays.copyOfRange(storage, 0, count);
     }
