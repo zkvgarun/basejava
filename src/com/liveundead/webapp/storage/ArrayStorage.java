@@ -4,9 +4,10 @@ import com.liveundead.webapp.model.Resume;
 
 import java.util.Arrays;
 
-public class ArrayStorage {
+public class ArrayStorage extends AbstracrArrayStorage {
+    private static final int STORAGE_LIMIT = 10000;
     private int count = 0;
-    private Resume[] storage = new Resume[10000];
+    private Resume[] storage = new Resume[STORAGE_LIMIT];
 
     public void clear() {
         Arrays.fill(storage, 0, count, null);
@@ -59,7 +60,7 @@ public class ArrayStorage {
         }
     }
 
-    private int getIndex(String uuid) {
+    protected int getIndex(String uuid) {
         for (int i = 0; i < count; i++) {
             if (uuid.equals(storage[i].getUuid())) {
                 return i;

@@ -2,12 +2,13 @@ package com.liveundead.webapp;
 
 import com.liveundead.webapp.model.Resume;
 import com.liveundead.webapp.storage.ArrayStorage;
+import com.liveundead.webapp.storage.Storage;
 
 /**
  * Test for your com.liveundead.webapp.storage.ArrayStorage implementation
  */
 public class MainTestArrayStorage {
-    static final ArrayStorage ARRAY_STORAGE = new ArrayStorage();
+    static final Storage ARRAY_STORAGE = new ArrayStorage();
 
     public static void main(String[] args) {
         Resume r1 = new Resume();
