@@ -2,26 +2,16 @@ package com.liveundead.webapp.storage;
 
 import com.liveundead.webapp.model.Resume;
 
-import java.util.Arrays;
-
 public class ArrayStorage extends AbstracrArrayStorage {
-    private static final int STORAGE_LIMIT = 10000;
-    private int count = 0;
-    private Resume[] storage = new Resume[STORAGE_LIMIT];
-
-    public void clear() {
-        Arrays.fill(storage, 0, count, null);
-        count = 0;
-    }
 
     public void save(Resume r) {
         int index = getIndex(r.getUuid());
 
-        if (count == storage.length) {
+        if (super.size == storage.length) {
             System.out.println("Нет места для хранения резюме");
         } else if (index < 0) {
-            storage[count] = r;
-            count++;
+            storage[super.size] = r;
+            super.size++;
         } else {
             System.out.println("Resume уже есть");
         }
@@ -37,43 +27,24 @@ public class ArrayStorage extends AbstracrArrayStorage {
         }
     }
 
-    public Resume get(String uuid) {
-        int index = getIndex(uuid);
-
-        if (index >= 0) {
-            return storage[index];
-        } else {
-            System.out.println("Resume не найден");
-            return null;
-        }
-    }
-
     public void delete(String uuid) {
         int index = getIndex(uuid);
 
         if (index >= 0) {
-            count--;
-            storage[index] = storage[count];
-            storage[count] = null;
+            super.size--;
+            storage[index] = storage[super.size];
+            storage[super.size] = null;
         } else {
             System.out.println("Resume не найден");
         }
     }
 
     protected int getIndex(String uuid) {
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < super.size; i++) {
             if (uuid.equals(storage[i].getUuid())) {
                 return i;
             }
         }
         return -1;
-    }
-
-    public Resume[] getAll() {
-        return Arrays.copyOfRange(storage, 0, count);
-    }
-
-    public int size() {
-        return count;
     }
 }
