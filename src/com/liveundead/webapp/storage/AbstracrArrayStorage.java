@@ -5,7 +5,7 @@ import com.liveundead.webapp.model.Resume;
 import java.util.Arrays;
 
 public abstract class AbstracrArrayStorage implements Storage {
-    protected static final int STORAGE_LIMIT = 5;
+    protected static final int STORAGE_LIMIT = 10000;
 
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
