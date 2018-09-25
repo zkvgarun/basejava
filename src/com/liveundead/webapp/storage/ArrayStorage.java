@@ -17,28 +17,6 @@ public class ArrayStorage extends AbstracrArrayStorage {
         }
     }
 
-    public void update(Resume r) {
-        int index = getIndex(r.getUuid());
-
-        if (index >= 0) {
-            storage[index] = r;
-        } else {
-            System.out.println("Resume не найден");
-        }
-    }
-
-    public void delete(String uuid) {
-        int index = getIndex(uuid);
-
-        if (index >= 0) {
-            super.size--;
-            storage[index] = storage[super.size];
-            storage[super.size] = null;
-        } else {
-            System.out.println("Resume не найден");
-        }
-    }
-
     protected int getIndex(String uuid) {
         for (int i = 0; i < super.size; i++) {
             if (uuid.equals(storage[i].getUuid())) {

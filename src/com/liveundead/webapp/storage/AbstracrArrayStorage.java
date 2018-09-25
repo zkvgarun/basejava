@@ -15,13 +15,37 @@ public abstract class AbstracrArrayStorage implements Storage {
         size = 0;
     }
 
+    public void delete(String uuid) {
+        int index = getIndex(uuid);
+
+        if (index < 0) {
+            System.out.println("Resume не найден");
+            return;
+        }
+
+        for (int i = index; i < size; i++) {
+            storage[i] = storage[i + 1];
+        }
+        size--;
+    }
+
+    @Override
+    public void update(Resume r) {
+        int index = getIndex(r.getUuid());
+        if (index >= 0) {
+            storage[index] = r;
+        } else {
+            System.out.println("Resume не найден");
+        }
+    }
+
     public int size() {
         return size;
     }
 
     public Resume get(String uuid) {
         int index = getIndex(uuid);
-        if (index == -1) {
+        if (index < 0) {
             System.out.println("Resume " + uuid + " not exist");
             return null;
         }

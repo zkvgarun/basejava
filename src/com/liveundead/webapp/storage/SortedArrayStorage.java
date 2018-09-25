@@ -7,12 +7,6 @@ import java.util.Arrays;
 public class SortedArrayStorage extends AbstracrArrayStorage {
 
     @Override
-    public void update(Resume r) {
-        int index = getIndex(r.getUuid());
-        storage[index] = r;
-    }
-
-    @Override
     public void save(Resume r) {
         int index = getIndex(r.getUuid());
         if (size == STORAGE_LIMIT) {
@@ -27,14 +21,6 @@ public class SortedArrayStorage extends AbstracrArrayStorage {
             storage[i + 1] = r;
             size++;
         }
-    }
-
-    @Override
-    public void delete(String uuid) {
-        int index = getIndex(uuid);
-        Arrays.fill(storage, size, size, null);
-        size--;
-        System.arraycopy(storage, size, storage, index, 1);
     }
 
     @Override
