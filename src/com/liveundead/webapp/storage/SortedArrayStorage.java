@@ -7,20 +7,20 @@ import java.util.Arrays;
 public class SortedArrayStorage extends AbstracrArrayStorage {
 
     @Override
-    public void save(Resume r) {
-        int index = getIndex(r.getUuid());
-        if (size == STORAGE_LIMIT) {
-            System.out.println("Нет места для хранения резюме");
-        } else if (index > 0) {
-            System.out.println("Resume уже есть");
-        } else {
-            int i;
-            for (i = size - 1; (i >= 0 && storage[i].compareTo(r) > 0); i--) {
-                storage[i + 1] = storage[i];
-            }
-            storage[i + 1] = r;
-            size++;
+    protected void saveResume(Resume r) {
+
+        int index = Math.abs(getIndex(r.getUuid())) -1; //getting index to insert
+        for (int i = size-1; i >= index; i--) {
+            storage[i+1] = storage[i];
         }
+        storage[index] = r;
+    }
+
+    @Override
+    protected void deleteResume(int index) {
+        int length = size - index; // number of copying elements;
+        System.arraycopy(storage, index+1, storage, index, length);
+        storage[size] = null;
     }
 
     @Override

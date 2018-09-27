@@ -4,21 +4,20 @@ import com.liveundead.webapp.model.Resume;
 
 public class ArrayStorage extends AbstracrArrayStorage {
 
-    public void save(Resume r) {
-        int index = getIndex(r.getUuid());
+    @Override
+    protected void saveResume(Resume r) {
+        storage[size] = r;
+    }
 
-        if (super.size == storage.length) {
-            System.out.println("Нет места для хранения резюме");
-        } else if (index < 0) {
-            storage[super.size] = r;
-            super.size++;
-        } else {
-            System.out.println("Resume уже есть");
-        }
+    @Override
+    protected void deleteResume(int index) {
+        storage[index] = storage[size];
+        storage[size] = null;
+
     }
 
     protected int getIndex(String uuid) {
-        for (int i = 0; i < super.size; i++) {
+        for (int i = 0; i < size; i++) {
             if (uuid.equals(storage[i].getUuid())) {
                 return i;
             }
