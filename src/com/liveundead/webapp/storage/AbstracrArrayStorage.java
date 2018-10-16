@@ -1,5 +1,8 @@
 package com.liveundead.webapp.storage;
 
+import com.liveundead.webapp.exception.ExistStorageException;
+import com.liveundead.webapp.exception.NotExistStorageException;
+import com.liveundead.webapp.exception.StorageException;
 import com.liveundead.webapp.model.Resume;
 
 import java.util.Arrays;
@@ -21,7 +24,7 @@ public abstract class AbstracrArrayStorage implements Storage {
         if (index >= 0) {
             storage[index] = r;
         } else {
-            System.out.println("Resume не найден");
+            throw new NotExistStorageException(r.getUuid());
         }
     }
 
@@ -29,12 +32,12 @@ public abstract class AbstracrArrayStorage implements Storage {
         int index = getIndex(r.getUuid());
 
         if (size == STORAGE_LIMIT) {
-            System.out.println("Нет места для хранения резюме");
+            throw new StorageException("Storage overflow", r.getUuid());
         } else if (index < 0) {
             saveResume(r);
             size++;
         } else {
-            System.out.println("Resume уже есть");
+            throw new ExistStorageException(r.getUuid());
         }
     }
 
@@ -42,10 +45,11 @@ public abstract class AbstracrArrayStorage implements Storage {
         int index = getIndex(uuid);
 
         if (index < 0) {
-            System.out.println("Resume не найден");
+            throw new NotExistStorageException(uuid);
         } else {
-            size--;
             deleteResume(index);
+            storage[size - 1] = null;
+            size--;
         }
     }
 
@@ -56,8 +60,7 @@ public abstract class AbstracrArrayStorage implements Storage {
     public Resume get(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
-            System.out.println("Resume " + uuid + " not exist");
-            return null;
+            throw new NotExistStorageException(uuid);
         }
         return storage[index];
     }
