@@ -2,7 +2,7 @@ package com.liveundead.webapp.storage;
 
 import com.liveundead.webapp.model.Resume;
 
-public class ArrayStorage extends AbstracrArrayStorage {
+public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected void saveResume(Resume r) {
