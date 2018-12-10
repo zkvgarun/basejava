@@ -1,5 +1,6 @@
 package com.liveundead.webapp.storage;
 
+
 import com.liveundead.webapp.exception.ExistStorageException;
 import com.liveundead.webapp.exception.NotExistStorageException;
 import com.liveundead.webapp.exception.StorageException;
@@ -8,7 +9,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public abstract class AbstractArrayStorageTest {
+public abstract class AbstractStorageTest {
     private Storage storage;
 
     private final static String UUID_1 = "uuid1";
@@ -20,7 +21,7 @@ public abstract class AbstractArrayStorageTest {
     private final static Resume RESUME_3 = new Resume(UUID_3);
 
 
-    AbstractArrayStorageTest(Storage storage) {
+    AbstractStorageTest(Storage storage) {
         this.storage = storage;
     }
 
