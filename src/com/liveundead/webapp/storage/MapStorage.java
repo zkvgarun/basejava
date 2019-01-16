@@ -16,39 +16,44 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected void updateResume(Resume r, int index) {
+    protected void updateResume(Resume r, Object index) {
         storage.put(r.getUuid(), r);
     }
 
     @Override
-    protected int getIndex(String uuid) {
-
-        if (storage.containsKey(uuid)) {
-            return 1;
-        } else {
-            return -1;
-        }
-    }
-
-    @Override
-    protected void saveResume(Resume r) {
-        storage.put(r.getUuid(), r);
-    }
-
-    @Override
-    protected Resume getResume(String uuid, int index) {
+    protected Object getIndex(String uuid) {
         return storage.get(uuid);
     }
 
     @Override
-    protected void deleteResume(String uuid, int index) {
+    protected void saveResume(Resume r, Object index) {
+        storage.put(r.getUuid(), r);
+    }
+
+    @Override
+    protected Resume getResume(String uuid, Object index) {
+        return storage.get(uuid);
+    }
+
+    @Override
+    protected void deleteResume(String uuid, Object index) {
         storage.remove(uuid);
     }
 
     @Override
     public Resume[] getAll() {
-        Resume[] resumes = storage.values().toArray(new Resume[size-1]);
+        Resume[] resumes = storage.values().toArray(new Resume[size()]);
         Arrays.sort(resumes);
         return resumes;
+    }
+
+    @Override
+    protected boolean isExist(Object index) {
+        return index != null;
+    }
+
+    @Override
+    public int size() {
+        return 0;
     }
 }
