@@ -11,33 +11,33 @@ public class MapStorage extends AbstractStorage {
 
 
     @Override
-    protected void clearStorage() {
+    public void clear() {
         storage.clear();
     }
 
     @Override
-    protected void updateResume(Resume r, Object index) {
+    protected void updateResume(Resume r, Object searchKey) {
         storage.put(r.getUuid(), r);
     }
 
     @Override
-    protected Object getIndex(String uuid) {
+    protected Object getSearchKey(String uuid) {
         return storage.get(uuid);
     }
 
     @Override
-    protected void saveResume(Resume r, Object index) {
+    protected void saveResume(Resume r, Object searchKey) {
         storage.put(r.getUuid(), r);
     }
 
     @Override
-    protected Resume getResume(String uuid, Object index) {
-        return storage.get(uuid);
+    protected Resume getResume(Object searchKey) {
+        return storage.get(((Resume) searchKey).getUuid());
     }
 
     @Override
-    protected void deleteResume(String uuid, Object index) {
-        storage.remove(uuid);
+    protected void deleteResume(Object searchKey) {
+        storage.remove(((Resume) searchKey).getUuid());
     }
 
     @Override
@@ -48,12 +48,12 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isExist(Object index) {
-        return index != null;
+    protected boolean isExist(Object searchKey) {
+        return searchKey != null;
     }
 
     @Override
     public int size() {
-        return 0;
+        return storage.size();
     }
 }

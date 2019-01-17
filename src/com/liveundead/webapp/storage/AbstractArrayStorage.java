@@ -17,40 +17,40 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void updateResume(Resume r, Object index) {
-        storage[(Integer) index] = r;
+    protected void updateResume(Resume r, Object searchKey) {
+        storage[(Integer) searchKey] = r;
     }
 
     @Override
-    public void saveResume(Resume r, Object index) {
+    public void saveResume(Resume r, Object searchKey) {
         if (size == STORAGE_LIMIT) {
             throw new StorageException("Storage overflow", r.getUuid());
         }
-        fillCell(r, (Integer) index);
+        fillCell(r, (Integer) searchKey);
         size++;
     }
 
     @Override
-    public void deleteResume(String uuid, Object index) {
-        deleteCell((Integer) index);
+    public void deleteResume(Object searchKey) {
+        deleteCell((Integer) searchKey);
         storage[size - 1] = null;
         size--;
     }
 
     @Override
-    protected void clearStorage() {
+    public void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
     @Override
-    protected Resume getResume(String uuid, Object index) {
-        return storage[(Integer) index];
+    protected Resume getResume(Object searchKey) {
+        return storage[(Integer) searchKey];
     }
 
     @Override
-    protected boolean isExist(Object index) {
-        return (Integer) index >= 0;
+    protected boolean isExist(Object searchKey) {
+        return (Integer) searchKey >= 0;
     }
 
     @Override
