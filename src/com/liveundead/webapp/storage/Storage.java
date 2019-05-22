@@ -2,6 +2,8 @@ package com.liveundead.webapp.storage;
 
 import com.liveundead.webapp.model.Resume;
 
+import java.util.List;
+
 public interface Storage {
     void clear();
 
@@ -9,11 +11,11 @@ public interface Storage {
 
     void save(Resume r);
 
-    Resume get(String uuid);
+    Resume get(String uuid, String fullName);
 
-    void delete(String uuid);
+    void delete(String uuid, String fullName);
 
-    Resume[] getAll();
+    List<Resume> getAllSorted();
 
     int size();
 }

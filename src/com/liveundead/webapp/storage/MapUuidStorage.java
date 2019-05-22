@@ -2,11 +2,9 @@ package com.liveundead.webapp.storage;
 
 import com.liveundead.webapp.model.Resume;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-public class MapStorage extends AbstractStorage {
+public class MapUuidStorage extends AbstractStorage {
     private Map<String, Resume> storage = new HashMap<>();
 
 
@@ -21,7 +19,7 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected Object getSearchKey(String uuid) {
+    protected Object getSearchKey(String uuid, String fullName) {
         return storage.get(uuid);
     }
 
@@ -41,9 +39,9 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        Resume[] resumes = storage.values().toArray(new Resume[size()]);
-        Arrays.sort(resumes);
+    public List<Resume> getAllSorted() {
+        List<Resume> resumes = new ArrayList<>(storage.values());
+        Collections.sort(resumes);
         return resumes;
     }
 

@@ -2,7 +2,9 @@ package com.liveundead.webapp.storage;
 
 import com.liveundead.webapp.model.Resume;
 
+import java.text.CollationElementIterator;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ListStorage extends AbstractStorage {
@@ -19,9 +21,9 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected Integer getSearchKey(String uuid) {
-        for (int i = 0; i < size(); i++){
-            if(storage.get(i).getUuid().equals(uuid)){
+    protected Integer getSearchKey(String uuid, String fullName) {
+        for (int i = 0; i < size(); i++) {
+            if (storage.get(i).getUuid().equals(uuid)) {
                 return i;
             }
         }
@@ -49,8 +51,9 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        return storage.toArray(new Resume[size()-1]);
+    public List<Resume> getAllSorted() {
+        Collections.sort(storage);
+        return storage;
     }
 
     @Override
