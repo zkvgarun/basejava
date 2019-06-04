@@ -3,14 +3,16 @@ package com.liveundead.webapp.storage;
 import com.liveundead.webapp.model.Resume;
 
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
-    protected void fillCell(Resume r, int index) {
+    protected void fillCell(Resume resume, int index) {
         int insertIdx = -index - 1;
         System.arraycopy(storage, insertIdx, storage, insertIdx + 1, size - insertIdx);
-        storage[insertIdx] = r;
+        storage[insertIdx] = resume;
     }
 
     @Override
@@ -20,8 +22,13 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected Integer getSearchKey(String uuid, String fullName) {
-        Resume searchKey = new Resume(uuid, fullName);
-        return Arrays.binarySearch(storage, 0, size, searchKey);
+    protected Integer getSearchKey(String uuid) {
+        Resume searchKey = new Resume(uuid, "");
+        return Arrays.binarySearch(storage, 0, size, searchKey, (o1, o2) -> o1.getUuid().compareTo(o2.getUuid()));
+    }
+
+    @Override
+    protected List<Resume> getSortedResumes() {
+        return Arrays.asList(new Resume[size]);
     }
 }

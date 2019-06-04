@@ -14,32 +14,32 @@ public class MapUuidStorage extends AbstractStorage {
     }
 
     @Override
-    protected void updateResume(Resume r, Object searchKey) {
-        storage.put(r.getUuid(), r);
+    protected void updateResume(Resume resume, Object searchKey) {
+        storage.put((String) searchKey, resume);
     }
 
     @Override
-    protected Object getSearchKey(String uuid, String fullName) {
-        return storage.get(uuid);
+    protected Object getSearchKey(String uuid) {
+        return storage.containsKey(uuid) ? uuid : null;
     }
 
     @Override
-    protected void saveResume(Resume r, Object searchKey) {
-        storage.put(r.getUuid(), r);
+    protected void saveResume(Resume resume, Object searchKey) {
+        storage.put(resume.getUuid(), resume);
     }
 
     @Override
     protected Resume getResume(Object searchKey) {
-        return storage.get(((Resume) searchKey).getUuid());
+        return storage.get((String)searchKey);
     }
 
     @Override
     protected void deleteResume(Object searchKey) {
-        storage.remove(((Resume) searchKey).getUuid());
+        storage.remove((String) searchKey);
     }
 
     @Override
-    public List<Resume> getAllSorted() {
+    public List<Resume> getSortedResumes() {
         List<Resume> resumes = new ArrayList<>(storage.values());
         Collections.sort(resumes);
         return resumes;

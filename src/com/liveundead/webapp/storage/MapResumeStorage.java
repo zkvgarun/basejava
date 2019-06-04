@@ -2,9 +2,6 @@ package com.liveundead.webapp.storage;
 
 import com.liveundead.webapp.model.Resume;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 public class MapResumeStorage extends AbstractStorage {
@@ -17,33 +14,28 @@ public class MapResumeStorage extends AbstractStorage {
     }
 
     @Override
-    protected void updateResume(Resume r, Object searchKey) {
-        String hex = md5Custom(r.getUuid() + r.getFullName());
-        storage.put(hex, r);
+    protected void updateResume(Resume resume, Object searchKey) {
+        storage.replace(resume.getUuid(),(Resume) searchKey, resume);
     }
 
     @Override
-    protected Object getSearchKey(String uuid, String fullName) {
-        String hex = md5Custom(uuid + fullName);
-        return storage.get(hex);
+    protected Object getSearchKey(String uuid) {
+        return storage.getOrDefault(uuid, null);
     }
 
     @Override
-    protected void saveResume(Resume r, Object searchKey) {
-        String hex = md5Custom(r.getUuid() + r.getFullName());
-        storage.put(hex, r);
+    protected void saveResume(Resume resume, Object searchKey) {
+        storage.put(resume.getUuid(), resume);
     }
 
     @Override
     protected void deleteResume(Object searchKey) {
-        String hex = md5Custom(((Resume) searchKey).getUuid() + ((Resume) searchKey).getFullName());
-        storage.remove(hex);
+        storage.remove(((Resume) searchKey).getUuid());
     }
 
     @Override
     protected Resume getResume(Object searchKey) {
-        String hex = md5Custom(((Resume) searchKey).getUuid() + ((Resume) searchKey).getFullName());
-        return storage.get(hex);
+        return (Resume) searchKey;
     }
 
     @Override
@@ -52,7 +44,7 @@ public class MapResumeStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
+    public List<Resume> getSortedResumes() {
         List<Resume> resumes = new ArrayList<>(storage.values());
         Collections.sort(resumes);
         return resumes;
@@ -61,27 +53,5 @@ public class MapResumeStorage extends AbstractStorage {
     @Override
     public int size() {
         return storage.size();
-    }
-
-    private String md5Custom(String st) {
-        MessageDigest messageDigest = null;
-        byte[] digest = new byte[0];
-
-        try {
-            messageDigest = MessageDigest.getInstance("MD5");
-            messageDigest.reset();
-            messageDigest.update(st.getBytes());
-            digest = messageDigest.digest();
-        } catch (NoSuchAlgorithmException nsae) {
-            nsae.printStackTrace();
-        }
-
-        BigInteger bigInt = new BigInteger(1, digest);
-        String md5Hex = bigInt.toString(16);
-
-        while (md5Hex.length() < 32) {
-            md5Hex = "0" + md5Hex;
-        }
-        return md5Hex;
     }
 }

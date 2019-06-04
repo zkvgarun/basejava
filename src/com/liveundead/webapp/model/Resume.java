@@ -9,10 +9,10 @@ public class Resume implements Comparable<Resume> {
 
     // Unique identifier
     private final String uuid;
-    private String fullName;
+    private final String fullName;
 
-    public Resume() {
-        this(UUID.randomUUID().toString(), "");
+    public Resume(String fullName) {
+        this(UUID.randomUUID().toString(), fullName);
     }
 
     public Resume(String uuid, String fullName) {
@@ -28,13 +28,12 @@ public class Resume implements Comparable<Resume> {
         return fullName;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
     @Override
     public String toString() {
-        return uuid;
+        return "Resume{" +
+                "uuid='" + uuid + '\'' +
+                ", fullName='" + fullName + '\'' +
+                '}';
     }
 
     @Override
@@ -44,28 +43,26 @@ public class Resume implements Comparable<Resume> {
 
         Resume resume = (Resume) o;
 
-        return uuid.equals(resume.uuid);
+        if (!uuid.equals(resume.uuid)) return false;
+        return fullName.equals(resume.fullName);
     }
 
     @Override
     public int hashCode() {
-        return uuid.hashCode();
+        int result = uuid.hashCode();
+        result = 31 * result + fullName.hashCode();
+        return result;
     }
 
     @Override
     public int compareTo(Resume o) {
-        if (fullName.compareTo(o.getFullName()) > 0) {
-            return -1;
+        int result;
+        result = fullName.compareTo(o.getFullName()) > 0 ? -1 : 1;
+        if (result != 0) {
+            return result;
         }
-        if (fullName.compareTo(o.getFullName()) < 0) {
-            return 1;
-        }
-        if (uuid.compareTo(o.getUuid()) > 0) {
-            return -1;
-        }
-        if (uuid.compareTo(o.getUuid()) < 0) {
-            return 1;
-        }
-        return 0;
+        result = uuid.compareTo(o.getUuid()) > 0 ? -1 : 1;
+        return result;
+
     }
 }

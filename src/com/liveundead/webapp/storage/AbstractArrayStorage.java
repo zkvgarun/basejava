@@ -18,22 +18,22 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void updateResume(Resume r, Object searchKey) {
-        storage[(Integer) searchKey] = r;
+    protected void updateResume(Resume resume, Object searchKey) {
+        storage[(Integer) searchKey] = resume;
     }
 
     @Override
-    public void saveResume(Resume r, Object searchKey) {
+    public void saveResume(Resume resume, Object index) {
         if (size == STORAGE_LIMIT) {
-            throw new StorageException("Storage overflow", r.getUuid());
+            throw new StorageException("Storage overflow", resume.getUuid());
         }
-        fillCell(r, (Integer) searchKey);
+        fillCell(resume, (Integer) index);
         size++;
     }
 
     @Override
-    public void deleteResume(Object searchKey) {
-        deleteCell((Integer) searchKey);
+    public void deleteResume(Object index) {
+        deleteCell((Integer) index);
         storage[size - 1] = null;
         size--;
     }
@@ -45,13 +45,13 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getResume(Object searchKey) {
-        return storage[(Integer) searchKey];
+    protected Resume getResume(Object index) {
+        return storage[(Integer) index];
     }
 
     @Override
-    protected boolean isExist(Object searchKey) {
-        return (Integer) searchKey >= 0;
+    protected boolean isExist(Object index) {
+        return (Integer) index >= 0;
     }
 
     @Override
@@ -59,7 +59,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return size;
     }
 
-    protected abstract void fillCell(Resume r, int index);
+    protected abstract void fillCell(Resume resume, int index);
 
     protected abstract void deleteCell(int index);
 }
