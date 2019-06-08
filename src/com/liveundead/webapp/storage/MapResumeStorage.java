@@ -15,12 +15,12 @@ public class MapResumeStorage extends AbstractStorage {
 
     @Override
     protected void updateResume(Resume resume, Object searchKey) {
-        storage.replace(resume.getUuid(),(Resume) searchKey, resume);
+        storage.replace(resume.getUuid(), (Resume) searchKey, resume);
     }
 
     @Override
     protected Object getSearchKey(String uuid) {
-        return storage.getOrDefault(uuid, null);
+        return storage.get(uuid);
     }
 
     @Override
@@ -44,10 +44,8 @@ public class MapResumeStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getSortedResumes() {
-        List<Resume> resumes = new ArrayList<>(storage.values());
-        Collections.sort(resumes);
-        return resumes;
+    public List<Resume> getListResumes() {
+        return new ArrayList<>(storage.values());
     }
 
     @Override

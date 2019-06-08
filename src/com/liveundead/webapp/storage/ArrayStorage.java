@@ -27,8 +27,7 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected List<Resume> getSortedResumes() {
-        Arrays.sort(storage);
+    protected List<Resume> getListResumes() {
         return Arrays.asList(new Resume[size]);
     }
 }

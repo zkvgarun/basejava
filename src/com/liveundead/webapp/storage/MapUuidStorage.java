@@ -30,7 +30,7 @@ public class MapUuidStorage extends AbstractStorage {
 
     @Override
     protected Resume getResume(Object searchKey) {
-        return storage.get((String)searchKey);
+        return storage.get((String) searchKey);
     }
 
     @Override
@@ -39,10 +39,8 @@ public class MapUuidStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getSortedResumes() {
-        List<Resume> resumes = new ArrayList<>(storage.values());
-        Collections.sort(resumes);
-        return resumes;
+    public List<Resume> getListResumes() {
+        return new ArrayList<>(storage.values());
     }
 
     @Override
