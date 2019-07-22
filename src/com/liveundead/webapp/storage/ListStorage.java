@@ -3,7 +3,6 @@ package com.liveundead.webapp.storage;
 import com.liveundead.webapp.model.Resume;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class ListStorage extends AbstractStorage {
@@ -51,7 +50,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected List<Resume> getListResumes() {
-        return storage;
+        return new ArrayList<>(storage);
     }
 
     @Override

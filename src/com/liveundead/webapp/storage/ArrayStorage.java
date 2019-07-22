@@ -25,9 +25,4 @@ public class ArrayStorage extends AbstractArrayStorage {
         }
         return -1;
     }
-
-    @Override
-    protected List<Resume> getListResumes() {
-        return Arrays.asList(new Resume[size]);
-    }
 }

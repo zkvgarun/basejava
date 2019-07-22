@@ -4,6 +4,7 @@ import com.liveundead.webapp.exception.ExistStorageException;
 import com.liveundead.webapp.exception.NotExistStorageException;
 import com.liveundead.webapp.model.Resume;
 
+import java.util.Comparator;
 import java.util.List;
 
 public abstract class AbstractStorage implements Storage {
@@ -35,7 +36,7 @@ public abstract class AbstractStorage implements Storage {
     @Override
     public List<Resume> getAllSorted() {
         List<Resume> resumes = getListResumes();
-        resumes.sort((Resume resume1, Resume resume2) -> resume1.compareTo(resume2));
+        resumes.sort(Comparator.naturalOrder());
         return resumes;
     }
 
